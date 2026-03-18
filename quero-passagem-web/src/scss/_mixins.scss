@@ -1,0 +1,79 @@
+@mixin flex($justify: center, $align: center, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+@mixin card {
+  background: $white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow;
+  border: 1px solid $gray-200;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: $gray-300;
+  }
+}
+
+@mixin button-variant($bg, $color: $white) {
+  background-color: $bg;
+  color: $color;
+  border: none;
+  padding: $space-3 $space-6;
+  border-radius: $border-radius-md;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: darken($bg, 10%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    background-color: $gray-300;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+@mixin input-field {
+  width: 100%;
+  padding: $space-3 $space-4;
+  border-radius: $border-radius-md;
+  border: 1px solid $gray-300;
+  background: $white;
+  font-family: inherit;
+  font-size: $font-size-base;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+  
+  &::placeholder {
+    color: $gray-400;
+  }
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == "sm" {
+    @media (max-width: 640px) { @content; }
+  } @else if $breakpoint == "md" {
+    @media (max-width: 768px) { @content; }
+  } @else if $breakpoint == "lg" {
+    @media (max-width: 1024px) { @content; }
+  } @else if $breakpoint == "xl" {
+    @media (max-width: 1280px) { @content; }
+  }
+}

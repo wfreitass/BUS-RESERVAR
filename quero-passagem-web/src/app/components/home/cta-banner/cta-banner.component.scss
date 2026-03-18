@@ -1,0 +1,71 @@
+@import '../../../../scss/variables';
+@import '../../../../scss/mixins';
+
+.cta-banner-section {
+  padding: $space-12 0;
+  background-color: $white;
+}
+
+.cta-card {
+  background-color: $accent;
+  background-image: linear-gradient(to right, $accent, $accent-dark);
+  border-radius: $border-radius-xl;
+  padding: $space-12;
+  @include flex(space-between, center);
+  color: $white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+  
+  @include responsive(md) {
+    flex-direction: column;
+    text-align: center;
+    padding: $space-8 $space-6;
+  }
+}
+
+.cta-content {
+  z-index: 2;
+  max-width: 500px;
+  
+  h2 {
+    font-size: $font-size-3xl;
+    font-weight: 800;
+    margin-bottom: $space-2;
+  }
+  
+  p {
+    font-size: $font-size-lg;
+    opacity: 0.9;
+    margin-bottom: $space-8;
+  }
+  
+  .btn-cta {
+    @include button-variant($white, $accent-dark);
+    font-size: $font-size-base;
+    padding: $space-4 $space-8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    
+    &:hover {
+      background-color: $gray-100;
+      color: $accent;
+    }
+  }
+}
+
+.cta-image {
+  font-size: 150px;
+  opacity: 0.2;
+  position: absolute;
+  right: $space-12;
+  transform: rotate(-15deg);
+  z-index: 1;
+  
+  @include responsive(md) {
+    position: static;
+    transform: none;
+    margin-top: $space-8;
+    font-size: 80px;
+  }
+}

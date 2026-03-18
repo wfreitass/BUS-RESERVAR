@@ -1,0 +1,126 @@
+<div class="search-results-page">
+  <!-- Top Summary Header (Sticky) -->
+  <header class="results-header">
+    <div class="container flex-between">
+      <div class="search-summary">
+        <div class="route-display">
+          <span class="city-name">{{ originState }}</span>
+          <span class="route-arrow">→</span>
+          <span class="city-name">{{ destinationState }}</span>
+        </div>
+        <div class="date-display">
+          📅 {{ date | date:'dd/MM/yyyy' }}
+          <span class="trip-count" *ngIf="!loading && tickets.length > 0">• {{ tickets.length }} viagens encontradas</span>
+        </div>
+      </div>
+      <button class="btn-change" (click)="backToHome()">ALTERAR BUSCA</button>
+    </div>
+  </header>
+
+  <div class="container main-content">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Buscando as melhores opções para você...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="errorMessage" class="error-card">
+      <span class="error-icon">⚠️</span>
+      <h3>Ops! Algo deu errado</h3>
+      <p>{{ errorMessage }}</p>
+      <button class="btn-retry" (click)="performSearch()">Tentar novamente</button>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="!loading && !errorMessage && tickets.length === 0" class="no-results">
+      <div class="no-results-content">
+        <h3>Nenhuma viagem encontrada</h3>
+        <p>Infelizmente não encontramos viagens para o trecho e data selecionados.</p>
+        <button class="btn-back" (click)="backToHome()">Voltar para a home</button>
+      </div>
+    </div>
+
+    <!-- Trip List -->
+    <main class="results-list" *ngIf="!loading && !errorMessage && tickets.length > 0">
+      <div class="trip-card-wrapper" *ngFor="let ticket of tickets" [class.expanded]="expandedTravelId === ticket.id">
+        <div class="trip-card">
+          <!-- Logo & Company -->
+          <div class="card-section brand-section">
+            <div class="company-logo">
+              <img [src]="getCompanyLogo(ticket.company)" [alt]="ticket.company?.name">
+            </div>
+          </div>
+
+          <!-- Times & Duration -->
+          <div class="card-section time-duration">
+            <div class="time-main">
+              <span class="time">{{ formatTime(ticket.departure) }}</span>
+              <span class="arrow">→</span>
+              <span class="time">{{ formatTime(ticket.arrival) }}</span>
+            </div>
+            <div class="duration-sub">
+              Duração: {{ formatDuration(ticket.travelDuration) }}
+            </div>
+          </div>
+
+          <!-- Stops Detail -->
+          <div class="card-section stops-detail">
+            <div class="stop-item departure">
+              <span class="dot">○</span>
+              <span class="stop-name" [title]="ticket.from?.name">{{ ticket.from?.name }}</span>
+            </div>
+            <div class="stop-connector"></div>
+            <div class="stop-item arrival">
+              <span class="dot">📍</span>
+              <span class="stop-name" [title]="ticket.to?.name">{{ ticket.to?.name }}</span>
+            </div>
+          </div>
+
+          <!-- Seat Class -->
+          <div class="card-section seat-class-section">
+            <span class="seat-icon">💺</span>
+            <span class="seat-class-text">{{ ticket.seatClass }}</span>
+          </div>
+
+          <!-- Price & Action -->
+          <div class="card-section price-action">
+            <div class="price-box">
+              <div class="price-value">
+                <span class="currency">R$</span>
+                <span class="amount">{{ ticket.price?.seatPrice | number:'1.2-2' }}</span>
+              </div>
+              <span class="price-label">por pessoa</span>
+            </div>
+            <button class="btn-select" (click)="toggleSeats(ticket.id)">
+              {{ expandedTravelId === ticket.id ? 'FECHAR' : 'ESCOLHER IDA' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Features Bar (Bottom) -->
+        <div class="card-features-bar">
+          <div class="left-badges">
+            <span class="badge rating">⭐ 8,0</span>
+            <span class="company-subname">{{ ticket.company?.name }}</span>
+            <span class="badge promo" *ngIf="ticket.price?.seatPrice < 100">Custo-benefício</span>
+          </div>
+          <div class="right-features">
+            <div class="amenities">
+              <span title="Ar condicionado">❄️</span>
+              <span title="Banheiro">🚻</span>
+              <span title="Wi-fi" *ngIf="ticket.seatClass.includes('LEITO')">📶</span>
+            </div>
+            <span class="badge bpe" *ngIf="ticket.withBPE">🎫 Embarque direto</span>
+            <span class="badge vip" *ngIf="ticket.loungeVipAvailable">⭐ Sala VIP</span>
+          </div>
+        </div>
+        
+        <!-- Accordion for Seats -->
+        <div class="seats-accordion" *ngIf="expandedTravelId === ticket.id">
+          <qp-seat-selection [travelId]="ticket.id"></qp-seat-selection>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

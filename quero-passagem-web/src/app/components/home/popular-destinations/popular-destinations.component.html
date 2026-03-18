@@ -1,0 +1,30 @@
+<section class="destinations-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Destinos mais populares</h2>
+      <p>As rotas mais buscadas pelos viajantes agora em oferta</p>
+    </div>
+
+    <div class="destinations-grid">
+      <div class="destination-card" *ngFor="let dest of destinations">
+        <div class="card-image">
+          <img [src]="dest.image" [alt]="dest.title">
+          <div class="route-badge">
+            {{ dest.routeOrigin }} → {{ dest.routeDest }}
+          </div>
+        </div>
+        <div class="card-content">
+          <h3>{{ dest.title }}</h3>
+          <div class="price-info">
+            <span class="label">A partir de</span>
+            <div class="price">
+              <span class="currency">R$</span>
+              <span class="value">{{ dest.price }}</span>
+            </div>
+          </div>
+          <button class="btn-view">VER PASSAGENS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

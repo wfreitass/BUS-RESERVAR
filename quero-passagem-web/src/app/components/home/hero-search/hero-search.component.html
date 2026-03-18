@@ -1,0 +1,79 @@
+<section class="hero-search">
+  <div class="container hero-container">
+    <div class="search-box">
+      <form class="search-form" (submit)="onSearch($event)">
+        <!-- ORIGEM -->
+        <div class="form-group origin">
+          <label for="origin">ORIGEM</label>
+          <div class="input-container">
+            <span class="input-icon">📍</span>
+            <input type="text" id="origin" placeholder="De onde você vai sair?" 
+                   [(ngModel)]="originQuery" name="origin" 
+                   (input)="filterOrigins()" (focus)="filterOrigins()" 
+                   autocomplete="off">
+            <button type="button" class="btn-clear" *ngIf="originQuery" (click)="clearInput('origin')">✕</button>
+            
+            <div class="dropdown-shadow" *ngIf="showOriginDropdown">
+              <div class="dropdown-list">
+                <div class="dropdown-item" *ngFor="let loc of filteredOrigins" (click)="selectOrigin(loc)">
+                  <div class="loc-main">
+                    <span class="loc-icon">{{ loc.type === 'city' ? '🏙️' : '🚌' }}</span>
+                    <span class="loc-name">{{ loc.name.split(',')[0] }}</span>
+                  </div>
+                  <div class="loc-meta">
+                    <span class="loc-type">{{ loc.type === 'city' ? 'Cidade' : 'Rodoviária' }}</span>
+                    <span class="loc-uf">{{ getUF(loc.name) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DESTINO -->
+        <div class="form-group destination">
+          <label for="destination">DESTINO</label>
+          <div class="input-container">
+            <span class="input-icon">📍</span>
+            <input type="text" id="destination" placeholder="Para onde você vai?" 
+                   [(ngModel)]="destinationQuery" name="destination" 
+                   (input)="filterDestinations()" (focus)="filterDestinations()" 
+                   autocomplete="off">
+            <button type="button" class="btn-clear" *ngIf="destinationQuery" (click)="clearInput('destination')">✕</button>
+            
+            <div class="dropdown-shadow" *ngIf="showDestinationDropdown">
+              <div class="dropdown-list">
+                <div class="dropdown-item" *ngFor="let loc of filteredDestinations" (click)="selectDestination(loc)">
+                  <div class="loc-main">
+                    <span class="loc-icon">{{ loc.type === 'city' ? '🏙️' : '🚌' }}</span>
+                    <span class="loc-name">{{ loc.name.split(',')[0] }}</span>
+                  </div>
+                  <div class="loc-meta">
+                    <span class="loc-type">{{ loc.type === 'city' ? 'Cidade' : 'Rodoviária' }}</span>
+                    <span class="loc-uf">{{ getUF(loc.name) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATA -->
+        <div class="form-group date">
+          <label for="departureDate">DATA DE IDA</label>
+          <div class="input-container">
+            <span class="input-icon">📅</span>
+            <input type="date" id="departureDate" [(ngModel)]="departureDate" name="departureDate" required>
+          </div>
+        </div>
+
+        <!-- AÇÃO -->
+        <div class="form-actions">
+           <button type="submit" class="btn-search">
+             Buscar Passagens
+           </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,272 @@
+@import '../../../scss/variables';
+@import '../../../scss/mixins';
+
+.search-results-page {
+  background-color: $gray-50;
+  min-height: 100vh;
+}
+
+// Sticky Summary Header
+.results-header {
+  background-color: $primary;
+  color: $white;
+  padding: $space-4 0;
+  position: sticky;
+  top: 72px; // Logo header height
+  z-index: 100;
+  box-shadow: $shadow-md;
+  
+  .search-summary {
+    .route-display {
+      @include flex(flex-start, center);
+      gap: $space-3;
+      margin-bottom: $space-1;
+      
+      .city-name { font-size: $font-size-xl; font-weight: 800; }
+      .route-arrow { color: rgba($white, 0.6); }
+    }
+    
+    .date-display {
+      font-size: $font-size-sm;
+      opacity: 0.8;
+      font-weight: 500;
+      .trip-count { margin-left: $space-2; }
+    }
+  }
+  
+  .btn-change {
+    @include button-variant(rgba($white, 0.1), $white);
+    border: 1px solid rgba($white, 0.3);
+    padding: $space-2 $space-4;
+    font-size: $font-size-xs;
+    &:hover { background-color: rgba($white, 0.2); }
+  }
+}
+
+.main-content {
+  padding: $space-8 0;
+}
+
+// Loading Spinner
+.loading-container {
+  @include flex(center, center, column);
+  padding: $space-12 0;
+  gap: $space-4;
+  
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid $gray-200;
+    border-top: 4px solid $accent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Trip Card Styling Redesign
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+}
+
+.trip-card-wrapper {
+  @include card;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  padding: 0;
+  background: $white;
+  
+  &.expanded {
+    box-shadow: $shadow-lg;
+    border-color: $accent;
+  }
+}
+
+.trip-card {
+  display: grid;
+  grid-template-columns: 220px 180px 1fr 180px 200px;
+  align-items: center;
+  padding: $space-6;
+  
+  @include responsive(lg) { grid-template-columns: 180px 150px 1fr 150px 180px; }
+  @include responsive(md) { grid-template-columns: 1fr; gap: $space-4; text-align: center; }
+  
+  .card-section {
+    padding: 0 $space-4;
+    
+    @include responsive(md) { padding: $space-2 0; }
+  }
+
+  // Logo Section
+  .brand-section {
+    .company-logo {
+      height: 80px; // Aumentado de 60px para 80px
+      @include flex(center, center);
+      
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+
+  // Time & Duration
+  .time-duration {
+    @include flex(center, center, column);
+    border-left: 1px solid $gray-100;
+    
+    @include responsive(md) { border-left: none; }
+
+    .time-main {
+      @include flex(center, center);
+      gap: $space-2;
+      .time { font-size: $font-size-xl; font-weight: 800; color: $gray-900; }
+      .arrow { color: $gray-300; font-size: $font-size-lg; }
+    }
+    
+    .duration-sub {
+      font-size: 11px;
+      color: $gray-500;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+  }
+
+  // Stops Detail (Vertical style like the image)
+  .stops-detail {
+    @include flex(center, flex-start, column);
+    gap: $space-1;
+    position: relative;
+    padding-left: $space-8;
+    
+    @include responsive(md) { align-items: center; padding-left: 0; }
+
+    .stop-item {
+      @include flex(flex-start, center);
+      gap: $space-2;
+      font-size: $font-size-sm;
+      
+      .dot { color: $primary; font-weight: bold; }
+      .stop-name {
+        color: $gray-700;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
+      }
+    }
+    
+    .stop-connector {
+      width: 1px;
+      height: 15px;
+      background: $gray-200;
+      margin-left: 5px;
+      
+      @include responsive(md) { display: none; }
+    }
+  }
+
+  // Seat Class
+  .seat-class-section {
+    @include flex(center, center);
+    gap: $space-2;
+    color: $gray-600;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: $font-size-sm;
+    
+    .seat-icon { font-size: $font-size-lg; opacity: 0.5; }
+  }
+
+  // Price & Action
+  .price-action {
+    @include flex(center, flex-end, column);
+    gap: $space-2;
+    border-left: 1px solid $gray-100;
+    
+    @include responsive(md) { border-left: none; align-items: center; }
+
+    .price-box {
+      text-align: right;
+      @include responsive(md) { text-align: center; }
+      
+      .price-value {
+        color: $gray-900;
+        .currency { font-size: $font-size-sm; font-weight: 700; margin-right: 2px; }
+        .amount { font-size: $font-size-2xl; font-weight: 800; }
+      }
+      
+      .price-label {
+        display: block;
+        font-size: 11px;
+        color: $gray-500;
+        font-weight: 600;
+      }
+    }
+
+    .btn-select {
+      @include button-variant($success); // Green button like "ESCOLHER IDA"
+      background-color: #007f3d; // specific green from image
+      width: 100%;
+      padding: $space-3;
+      font-size: $font-size-sm;
+      letter-spacing: 0.05em;
+      
+      &:hover { background-color: darken(#007f3d, 5%); }
+    }
+  }
+}
+
+// Features Bar (Bottom)
+.card-features-bar {
+  background: $gray-50;
+  padding: $space-2 $space-6;
+  border-top: 1px solid $gray-100;
+  @include flex(space-between, center);
+  
+  @include responsive(md) { flex-direction: column; gap: $space-3; }
+
+  .left-badges {
+    @include flex(flex-start, center);
+    gap: $space-4;
+    
+    .company-subname { font-size: 11px; color: $gray-500; font-weight: 600; }
+  }
+
+  .right-features {
+    @include flex(flex-end, center);
+    gap: $space-4;
+    
+    .amenities {
+      @include flex(center, center);
+      gap: $space-2;
+      font-size: $font-size-sm;
+      color: $gray-400;
+    }
+  }
+
+  .badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    
+    &.rating { background: $gray-200; color: $gray-700; }
+    &.promo { background: #e6f7ef; color: #007f3d; }
+    &.bpe { background: $gray-100; color: $gray-600; border: 1px solid $gray-200; }
+    &.vip { background: $primary-dark; color: $white; }
+  }
+}
+
+.seats-accordion {
+  border-top: 1px solid $gray-200;
+  background: $white;
+}

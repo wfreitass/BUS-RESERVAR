@@ -1,0 +1,139 @@
+$primary-blue: #003366;
+$accent-orange: #ff6600;
+$white: #ffffff;
+$light-gray: #f9f9f9;
+
+.hero-search {
+  background: linear-gradient(rgba(0, 51, 102, 0.8), rgba(0, 51, 102, 0.8)), 
+              url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1200') center/cover no-repeat;
+  padding: 80px 0;
+  color: $white;
+  text-align: center;
+
+  .hero-content {
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+
+      span {
+        color: $accent-orange;
+      }
+    }
+
+    p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+  }
+}
+
+.search-box {
+  background-color: $white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  color: #333;
+  margin-top: -30px;
+  position: relative;
+  z-index: 10;
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 15px;
+  align-items: flex-end;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group {
+    text-align: left;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .input-wrapper {
+      position: relative;
+
+      input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        outline: none;
+
+        &:focus {
+          border-color: $primary-blue;
+        }
+      }
+    }
+  }
+
+  .btn-search {
+    background-color: $accent-orange;
+    color: $white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+    width: 100%;
+
+    &:hover {
+      background-color: darken($accent-orange, 10%);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.benefits {
+  padding: 60px 0;
+  background-color: $light-gray;
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .benefit-item {
+    text-align: center;
+    padding: 20px;
+
+    .icon-circle {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: $primary-blue;
+    }
+
+    p {
+      color: #777;
+    }
+  }
+}

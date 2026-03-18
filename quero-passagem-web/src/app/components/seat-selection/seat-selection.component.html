@@ -1,0 +1,48 @@
+<div class="seat-selection-container">
+  <div class="selection-header">
+    <h3>Selecione sua poltrona</h3>
+    <div class="seat-legend">
+      <div class="legend-item"><span class="seat available"></span> Livre</div>
+      <div class="legend-item"><span class="seat occupied"></span> Ocupada</div>
+      <div class="legend-item"><span class="seat selected"></span> Selecionada</div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="seats-loading">
+    <div class="mini-spinner"></div>
+    <p>Carregando mapa...</p>
+  </div>
+
+  <div class="bus-layout" *ngIf="!loading && seatMap.length > 0">
+    <div class="bus-driver">
+      <span class="steering-wheel">⭕</span>
+    </div>
+    
+    <div class="seats-grid">
+      <ng-container *ngFor="let row of seatMap">
+        <ng-container *ngFor="let seat of row">
+          <!-- Espaço vazio ou corredor -->
+          <div class="seat-space" *ngIf="seat.type !== 'seat'"></div>
+          
+          <!-- Poltrona -->
+          <div class="seat-wrapper" *ngIf="seat.type === 'seat'" 
+               [class.occupied]="isOccupied(seat)"
+               [class.selected]="isSelected(seat.seat)"
+               (click)="toggleSeat(seat)">
+            <div class="seat-box">
+              <span class="seat-number">{{ seat.seat }}</span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="selection-footer" *ngIf="!loading && selectedSeats.length > 0">
+    <div class="selected-info">
+      <span class="count">{{ selectedSeats.length }}</span> poltrona(s) selecionada(s): 
+      <strong>{{ selectedSeats.join(', ') }}</strong>
+    </div>
+    <button class="btn-confirm" (click)="confirmSelection()">PROSSEGUIR COM A RESERVA</button>
+  </div>
+</div>
