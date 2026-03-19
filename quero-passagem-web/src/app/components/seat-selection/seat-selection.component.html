@@ -1,48 +1,67 @@
-<div class="seat-selection-container">
-  <div class="selection-header">
-    <h3>Selecione sua poltrona</h3>
-    <div class="seat-legend">
-      <div class="legend-item"><span class="seat available"></span> Livre</div>
-      <div class="legend-item"><span class="seat occupied"></span> Ocupada</div>
-      <div class="legend-item"><span class="seat selected"></span> Selecionada</div>
+<div class="seat-selection-container p-3">
+  <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3 flex-wrap gap-3">
+    <h5 class="fw-bold text-dark mb-0">Selecione sua poltrona</h5>
+    <div class="d-flex gap-3">
+      <div class="d-flex align-items-center gap-2 small fw-bold text-muted">
+        <div class="rounded border bg-white" style="width: 16px; height: 16px;"></div> Livre
+      </div>
+      <div class="d-flex align-items-center gap-2 small fw-bold text-muted">
+        <div class="rounded bg-secondary-subtle border" style="width: 16px; height: 16px;"></div> Ocupada
+      </div>
+      <div class="d-flex align-items-center gap-2 small fw-bold text-muted">
+        <div class="rounded bg-info border-info" style="width: 16px; height: 16px;"></div> Selecionada
+      </div>
     </div>
   </div>
 
-  <div *ngIf="loading" class="seats-loading">
-    <div class="mini-spinner"></div>
-    <p>Carregando mapa...</p>
-  </div>
+  @if (loading) {
+    <div class="text-center py-4">
+      <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+      <p class="mt-2 text-muted small">Carregando mapa...</p>
+    </div>
+  }
 
-  <div class="bus-layout" *ngIf="!loading && seatMap.length > 0">
-    <div class="bus-driver">
-      <span class="steering-wheel">⭕</span>
+  @if (!loading && seatMap.length > 0) {
+    <div class="bus-container d-flex justify-content-center overflow-auto py-4 px-2">
+      <div class="bus-layout bg-light border border-2 rounded-4 p-4 d-inline-flex position-relative shadow-sm" style="min-width: 300px;">
+        <div class="bus-driver border-end border-dashed pe-4 me-4 d-flex align-items-center">
+          <i class="bi bi-vinyl fs-3 opacity-25"></i>
+        </div>
+        
+        <div class="seats-grid">
+          @for (row of seatMap; track $index) {
+            @for (seat of row; track seat.seat || $index) {
+              @if (seat.type === 'seat') {
+                <div class="seat-wrapper" 
+                     [class.occupied]="isOccupied(seat)"
+                     [class.selected]="isSelected(seat.seat)"
+                     (click)="toggleSeat(seat)"
+                     [title]="isOccupied(seat) ? 'Ocupada' : 'Poltrona ' + seat.seat">
+                  <div class="seat-box d-flex align-items-center justify-content-center fw-bold small">
+                    {{ seat.seat }}
+                  </div>
+                </div>
+              } @else {
+                <div class="seat-space"></div>
+              }
+            }
+          }
+        </div>
+      </div>
     </div>
-    
-    <div class="seats-grid">
-      <ng-container *ngFor="let row of seatMap">
-        <ng-container *ngFor="let seat of row">
-          <!-- Espaço vazio ou corredor -->
-          <div class="seat-space" *ngIf="seat.type !== 'seat'"></div>
-          
-          <!-- Poltrona -->
-          <div class="seat-wrapper" *ngIf="seat.type === 'seat'" 
-               [class.occupied]="isOccupied(seat)"
-               [class.selected]="isSelected(seat.seat)"
-               (click)="toggleSeat(seat)">
-            <div class="seat-box">
-              <span class="seat-number">{{ seat.seat }}</span>
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
-    </div>
-  </div>
+  }
 
-  <div class="selection-footer" *ngIf="!loading && selectedSeats.length > 0">
-    <div class="selected-info">
-      <span class="count">{{ selectedSeats.length }}</span> poltrona(s) selecionada(s): 
-      <strong>{{ selectedSeats.join(', ') }}</strong>
+  @if (!loading && selectedSeats.length > 0) {
+    <div class="alert bg-info-subtle border-info-subtle d-flex justify-content-between align-items-center mt-4 p-3 rounded-3 shadow-sm animation-fade-in">
+      <div class="text-info-emphasis">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        <span class="fw-bold fs-5 me-2">{{ selectedSeats.length }}</span> 
+        poltrona(s) selecionada(s): 
+        <strong class="text-dark ms-1">{{ selectedSeats.join(', ') }}</strong>
+      </div>
+      <button class="btn btn-success fw-bold px-4 shadow-sm" (click)="confirmSelection()">
+        PROSSEGUIR COM A RESERVA
+      </button>
     </div>
-    <button class="btn-confirm" (click)="confirmSelection()">PROSSEGUIR COM A RESERVA</button>
-  </div>
+  }
 </div>

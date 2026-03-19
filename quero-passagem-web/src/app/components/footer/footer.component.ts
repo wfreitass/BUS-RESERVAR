@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { LogoComponent } from '../shared/logo/logo.component';
 
 @Component({
   selector: 'qp-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [ LogoComponent],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })

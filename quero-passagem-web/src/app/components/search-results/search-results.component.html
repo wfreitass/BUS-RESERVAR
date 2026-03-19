@@ -1,126 +1,170 @@
-<div class="search-results-page">
+<div class="search-results-page bg-light min-vh-100">
   <!-- Top Summary Header (Sticky) -->
-  <header class="results-header">
-    <div class="container flex-between">
+  <header class="results-header bg-primary text-white py-3 sticky-top shadow-sm" style="top: 72px;">
+    <div class="container d-flex justify-content-between align-items-center">
       <div class="search-summary">
-        <div class="route-display">
-          <span class="city-name">{{ originState }}</span>
-          <span class="route-arrow">→</span>
-          <span class="city-name">{{ destinationState }}</span>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="fs-4 fw-bold">{{ originState }}</span>
+          <i class="bi bi-arrow-right opacity-50"></i>
+          <span class="fs-4 fw-bold">{{ destinationState }}</span>
         </div>
-        <div class="date-display">
-          📅 {{ date | date:'dd/MM/yyyy' }}
-          <span class="trip-count" *ngIf="!loading && tickets.length > 0">• {{ tickets.length }} viagens encontradas</span>
+        <div class="small fw-light opacity-75">
+          <i class="bi bi-calendar-event me-1"></i> {{ date | date:'dd/MM/yyyy' }}
+          @if (!loading && tickets.length > 0) {
+            <span class="trip-count ms-2 border-start ps-2">• {{ tickets.length }} viagens encontradas</span>
+          }
         </div>
       </div>
-      <button class="btn-change" (click)="backToHome()">ALTERAR BUSCA</button>
+      <button class="btn btn-outline-light btn-sm px-4 fw-bold rounded-pill" (click)="backToHome()">ALTERAR BUSCA</button>
     </div>
   </header>
 
-  <div class="container main-content">
+  <div class="container py-5">
     <!-- Loading State -->
-    <div *ngIf="loading" class="loading-container">
-      <div class="spinner"></div>
-      <p>Buscando as melhores opções para você...</p>
-    </div>
+    @if (loading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+        <p class="mt-3 text-muted fw-bold">Buscando as melhores opções para você...</p>
+      </div>
+    }
 
     <!-- Error State -->
-    <div *ngIf="errorMessage" class="error-card">
-      <span class="error-icon">⚠️</span>
-      <h3>Ops! Algo deu errado</h3>
-      <p>{{ errorMessage }}</p>
-      <button class="btn-retry" (click)="performSearch()">Tentar novamente</button>
-    </div>
-
-    <!-- No Results -->
-    <div *ngIf="!loading && !errorMessage && tickets.length === 0" class="no-results">
-      <div class="no-results-content">
-        <h3>Nenhuma viagem encontrada</h3>
-        <p>Infelizmente não encontramos viagens para o trecho e data selecionados.</p>
-        <button class="btn-back" (click)="backToHome()">Voltar para a home</button>
+    @if (errorMessage) {
+      <div class="alert alert-danger shadow-sm border-0 d-flex align-items-center p-4">
+        <i class="bi bi-exclamation-triangle-fill fs-1 me-4"></i>
+        <div>
+          <h4 class="alert-heading fw-bold">Ops! Algo deu errado</h4>
+          <p class="mb-0">{{ errorMessage }}</p>
+          <button class="btn btn-danger btn-sm mt-3 px-4 fw-bold" (click)="performSearch()">Tentar novamente</button>
+        </div>
       </div>
-    </div>
+    }
 
-    <!-- Trip List -->
-    <main class="results-list" *ngIf="!loading && !errorMessage && tickets.length > 0">
-      <div class="trip-card-wrapper" *ngFor="let ticket of tickets" [class.expanded]="expandedTravelId === ticket.id">
-        <div class="trip-card">
-          <!-- Logo & Company -->
-          <div class="card-section brand-section">
-            <div class="company-logo">
-              <img [src]="getCompanyLogo(ticket.company)" [alt]="ticket.company?.name">
-            </div>
+    <!-- No Results / Success States -->
+    @if (!loading && !errorMessage) {
+      @if (tickets.length === 0) {
+        <div class="card border-0 shadow-sm p-5 text-center">
+          <div class="card-body">
+            <i class="bi bi-bus-front text-muted display-1"></i>
+            <h3 class="mt-4 fw-bold">Nenhuma viagem encontrada</h3>
+            <p class="text-muted lead">Infelizmente não encontramos viagens para o trecho e data selecionados.</p>
+            <button class="btn btn-primary px-5 py-2 mt-3 fw-bold rounded-pill" (click)="backToHome()">Voltar para a home</button>
           </div>
+        </div>
+      } @else {
+        <!-- Trip List -->
+        <div class="results-list d-flex flex-column gap-4">
+          @for (ticket of tickets; track ticket.id) {
+            <div class="card border-0 shadow-sm trip-card-wrapper overflow-hidden" [class.border-start]="expandedTravelId === ticket.id" [style.border-left]="expandedTravelId === ticket.id ? '4px solid #ff6600 !important' : ''">
+              <div class="card-body p-0">
+                <div class="row g-0 align-items-center p-4">
+                  <!-- Logo Section -->
+                  <div class="col-lg-2 text-center border-end-lg">
+                    <div class="company-logo d-flex align-items-center justify-content-center" style="height: 80px;">
+                      <img [src]="getCompanyLogo(ticket.company)" [alt]="ticket.company?.name" class="img-fluid" style="max-height: 100%;">
+                    </div>
+                  </div>
 
-          <!-- Times & Duration -->
-          <div class="card-section time-duration">
-            <div class="time-main">
-              <span class="time">{{ formatTime(ticket.departure) }}</span>
-              <span class="arrow">→</span>
-              <span class="time">{{ formatTime(ticket.arrival) }}</span>
-            </div>
-            <div class="duration-sub">
-              Duração: {{ formatDuration(ticket.travelDuration) }}
-            </div>
-          </div>
+                  <!-- Times & Duration -->
+                  <div class="col-lg-2 text-center border-end-lg px-3">
+                    <div class="d-flex flex-column">
+                      <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
+                        <span class="fs-4 fw-black text-dark">{{ formatTime(ticket.departure) }}</span>
+                        <i class="bi bi-arrow-right text-muted small"></i>
+                        <span class="fs-4 fw-black text-dark">{{ formatTime(ticket.arrival) }}</span>
+                      </div>
+                      <span class="badge bg-light text-muted small border fw-bold px-3 py-2 rounded-pill">
+                        Duração: {{ formatDuration(ticket.travelDuration) }}
+                      </span>
+                    </div>
+                  </div>
 
-          <!-- Stops Detail -->
-          <div class="card-section stops-detail">
-            <div class="stop-item departure">
-              <span class="dot">○</span>
-              <span class="stop-name" [title]="ticket.from?.name">{{ ticket.from?.name }}</span>
-            </div>
-            <div class="stop-connector"></div>
-            <div class="stop-item arrival">
-              <span class="dot">📍</span>
-              <span class="stop-name" [title]="ticket.to?.name">{{ ticket.to?.name }}</span>
-            </div>
-          </div>
+                  <!-- Stops Detail -->
+                  <div class="col-lg-3 px-4 border-end-lg">
+                    <div class="d-flex flex-column gap-1 position-relative">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-circle text-primary x-small"></i>
+                        <span class="text-dark small fw-bold text-truncate" [title]="ticket.from?.name">{{ ticket.from?.name }}</span>
+                      </div>
+                      <div class="border-start ms-1 ps-3 my-1" style="height: 15px; border-style: dashed !important;"></div>
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-geo-alt-fill text-primary small"></i>
+                        <span class="text-dark small fw-bold text-truncate" [title]="ticket.to?.name">{{ ticket.to?.name }}</span>
+                      </div>
+                    </div>
+                  </div>
 
-          <!-- Seat Class -->
-          <div class="card-section seat-class-section">
-            <span class="seat-icon">💺</span>
-            <span class="seat-class-text">{{ ticket.seatClass }}</span>
-          </div>
+                  <!-- Seat Class -->
+                  <div class="col-lg-2 text-center border-end-lg px-3">
+                    <div class="d-flex flex-column align-items-center">
+                      <i class="bi bi-safe text-muted fs-4 mb-1"></i>
+                      <span class="text-uppercase fw-bold text-muted small ls-1">{{ ticket.seatClass }}</span>
+                    </div>
+                  </div>
 
-          <!-- Price & Action -->
-          <div class="card-section price-action">
-            <div class="price-box">
-              <div class="price-value">
-                <span class="currency">R$</span>
-                <span class="amount">{{ ticket.price?.seatPrice | number:'1.2-2' }}</span>
+                  <!-- Price & Action -->
+                  <div class="col-lg-3 text-center ps-4">
+                    <div class="d-flex flex-column align-items-lg-end align-items-center">
+                      <div class="mb-2 text-lg-end text-center">
+                        <p class="mb-0 text-muted small text-uppercase fw-bold ls-1">por pessoa</p>
+                        <div class="d-flex align-items-baseline justify-content-lg-end justify-content-center">
+                          <span class="text-dark fw-bold me-1">R$</span>
+                          <span class="text-dark fw-black display-6">{{ ticket.price?.seatPrice | number:'1.2-2' }}</span>
+                        </div>
+                      </div>
+                      <button class="btn btn-success btn-lg px-4 w-100 fw-bold rounded-3 shadow-sm border-0" (click)="toggleSeats(ticket.id)">
+                        {{ expandedTravelId === ticket.id ? 'FECHAR' : 'ESCOLHER IDA' }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Features Bar (Bottom) -->
+                <div class="bg-light border-top d-flex flex-wrap justify-content-between align-items-center py-2 px-4 gap-2">
+                  <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-secondary-subtle text-dark border px-2 py-1 rounded">
+                      <i class="bi bi-star-fill text-warning me-1"></i> 8,0
+                    </span>
+                    <span class="text-muted small fw-bold">{{ ticket.company?.name }}</span>
+                    @if (ticket.price?.seatPrice < 100) {
+                      <span class="badge bg-success-subtle text-success border-success-subtle px-2 py-1 rounded small fw-bold">
+                        Custo-benefício
+                      </span>
+                    }
+                  </div>
+                  
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex gap-2 text-muted fs-5 opacity-75">
+                      <i class="bi bi-snow" title="Ar condicionado"></i>
+                      <i class="bi bi-droplet" title="Banheiro"></i>
+                      @if (ticket.seatClass.includes('LEITO')) {
+                        <i class="bi bi-wifi" title="Wi-fi"></i>
+                      }
+                    </div>
+                    @if (ticket.withBPE) {
+                      <span class="badge bg-light text-muted border px-2 py-1 rounded small fw-bold">
+                        <i class="bi bi-qr-code-scan me-1"></i> Embarque direto
+                      </span>
+                    }
+                    @if (ticket.loungeVipAvailable) {
+                      <span class="badge bg-dark text-white px-2 py-1 rounded small fw-bold">
+                        <i class="bi bi-award-fill text-warning me-1"></i> Sala VIP
+                      </span>
+                    }
+                  </div>
+                </div>
+                
+                <!-- Accordion for Seats -->
+                @if (expandedTravelId === ticket.id) {
+                  <div class="p-4 bg-white border-top shadow-inner">
+                    <qp-seat-selection [travelId]="ticket.id"></qp-seat-selection>
+                  </div>
+                }
               </div>
-              <span class="price-label">por pessoa</span>
             </div>
-            <button class="btn-select" (click)="toggleSeats(ticket.id)">
-              {{ expandedTravelId === ticket.id ? 'FECHAR' : 'ESCOLHER IDA' }}
-            </button>
-          </div>
+          }
         </div>
-
-        <!-- Features Bar (Bottom) -->
-        <div class="card-features-bar">
-          <div class="left-badges">
-            <span class="badge rating">⭐ 8,0</span>
-            <span class="company-subname">{{ ticket.company?.name }}</span>
-            <span class="badge promo" *ngIf="ticket.price?.seatPrice < 100">Custo-benefício</span>
-          </div>
-          <div class="right-features">
-            <div class="amenities">
-              <span title="Ar condicionado">❄️</span>
-              <span title="Banheiro">🚻</span>
-              <span title="Wi-fi" *ngIf="ticket.seatClass.includes('LEITO')">📶</span>
-            </div>
-            <span class="badge bpe" *ngIf="ticket.withBPE">🎫 Embarque direto</span>
-            <span class="badge vip" *ngIf="ticket.loungeVipAvailable">⭐ Sala VIP</span>
-          </div>
-        </div>
-        
-        <!-- Accordion for Seats -->
-        <div class="seats-accordion" *ngIf="expandedTravelId === ticket.id">
-          <qp-seat-selection [travelId]="ticket.id"></qp-seat-selection>
-        </div>
-      </div>
-    </main>
+      }
+    }
   </div>
 </div>

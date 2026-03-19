@@ -1,181 +1,55 @@
 @import '../../../../scss/variables';
-@import '../../../../scss/mixins';
 
 .hero-search {
   background-image: url('https://assets.queropassagem.com.br/public/Upload/fundo/home_fundo_1.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: $white;
-  padding: $space-12 0;
-  min-height: 400px;
+  min-height: 500px;
   display: flex;
   align-items: center;
-  position: relative;
-  text-align: left;
-  margin-bottom: $space-12; 
-  
-  .hero-container {
-    width: 100%;
-    z-index: 2;
+  .card {
+    border-radius: $border-radius-xl;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
   }
-  
-  .search-box {
-    @include card;
-    background: $white;
-    padding: $space-8;
-    max-width: 420px;
-    margin: 0;
-    width: 100%;
-    z-index: 50;
-    
-    .search-form {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: $space-5;
-      align-items: end;
-      
-      .form-group {
-        text-align: left;
-        label { 
-          display: block; 
-          color: $gray-500; 
-          font-size: $font-size-xs; 
-          font-weight: 700; 
-          margin-bottom: $space-2; 
-          text-transform: uppercase; 
-          letter-spacing: 0.05em;
-        }
-        
-        .input-container {
-          @include flex(flex-start, center);
-          background: $gray-50;
-          border-radius: $border-radius-md;
-          padding: 0 $space-4;
-          height: 56px;
-          border: 1px solid $gray-200;
-          transition: all 0.2s;
-          position: relative;
-          
-          &:focus-within { 
-            border-color: $primary; 
-            background: $white;
-            box-shadow: 0 0 0 4px rgba($primary, 0.1);
-          }
 
-          .input-icon { margin-right: $space-3; font-size: $font-size-lg; }
-          
-          input { 
-            border: none; 
-            background: transparent; 
-            width: 100%; 
-            outline: none; 
-            color: $gray-800; 
-            font-size: $font-size-base; 
-            font-weight: 500; 
-            height: 100%;
-            
-            &::placeholder { color: $gray-400; }
-          }
-          
-          .btn-clear {
-            background: none;
-            border: none;
-            color: $gray-400;
-            cursor: pointer;
-            padding: $space-1;
-            font-size: $font-size-xs;
-            &:hover { color: $gray-600; }
-          }
-        }
+  .input-group {
+    transition: all 0.2s;
+    &:focus-within {
+      border-color: $primary !important;
+      box-shadow: 0 0 0 4px rgba($primary, 0.1);
+    }
+  }
+
+  .dropdown-menu {
+    border: none;
+    .dropdown-item {
+      transition: background-color 0.2s;
+      &:hover {
+        background-color: $gray-100;
       }
-      
-      .btn-search {
-        @include button-variant($accent);
-        height: 60px;
-        width: 100%;
-        margin-top: $space-2;
-        font-size: $font-size-base;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        box-shadow: 0 4px 12px rgba($accent, 0.3);
-        
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba($accent, 0.4);
-        }
+      &:active {
+        background-color: $primary;
+        color: white !important;
+        .text-muted, .badge { color: white !important; }
       }
     }
   }
-}
 
-// Dropdown Styles
-.dropdown-shadow {
-  position: absolute;
-  top: calc(100% + $space-2);
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  filter: drop-shadow($shadow-lg);
-}
-
-.dropdown-list {
-  background: $white;
-  border-radius: $border-radius-lg;
-  border: 1px solid $gray-200;
-  max-height: 320px;
-  overflow-y: auto;
-  
-  .dropdown-item {
-    padding: $space-4;
-    cursor: pointer;
-    border-bottom: 1px solid $gray-100;
-    @include flex(space-between, center);
-    
-    &:last-child { border-bottom: none; }
-    &:hover { background-color: $gray-50; }
-    
-    .loc-main {
-      @include flex(flex-start, center);
-      gap: $space-3;
-      .loc-icon { font-size: $font-size-lg; }
-      .loc-name { font-weight: 700; color: $gray-800; font-size: $font-size-sm; }
-    }
-    
-    .loc-meta {
-      text-align: right;
-      .loc-type { 
-        display: block; 
-        color: $gray-500; 
-        font-size: $font-size-xs; 
-        margin-bottom: 2px;
-      }
-      .loc-uf { 
-        background: $gray-200; 
-        padding: 2px 6px; 
-        border-radius: 4px; 
-        font-size: 10px; 
-        color: $gray-700; 
-        font-weight: 800;
-      }
+  .btn-info {
+    background-color: $accent;
+    transition: all 0.2s;
+    &:hover {
+      background-color: darken($accent, 5%);
+      transform: translateY(-2px);
     }
   }
 }
 
 @media (max-width: 768px) {
   .hero-search {
-    padding: $space-12 0;
     min-height: auto;
-    text-align: center;
-    
-    .hero-content {
-      margin: 0 auto $space-8;
-    }
-    
-    .search-box {
-      margin: 0 auto;
-      padding: $space-6;
-    }
+    padding: $space-12 0;
   }
 }

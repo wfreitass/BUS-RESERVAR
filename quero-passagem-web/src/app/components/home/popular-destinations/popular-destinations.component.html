@@ -1,30 +1,34 @@
-<section class="destinations-section">
+<section class="destinations-section py-5">
   <div class="container">
-    <div class="section-header">
-      <h2>Destinos mais populares</h2>
-      <p>As rotas mais buscadas pelos viajantes agora em oferta</p>
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-primary display-6">Destinos mais populares</h2>
+      <p class="text-muted lead">As rotas mais buscadas pelos viajantes agora em oferta</p>
     </div>
 
-    <div class="destinations-grid">
-      <div class="destination-card" *ngFor="let dest of destinations">
-        <div class="card-image">
-          <img [src]="dest.image" [alt]="dest.title">
-          <div class="route-badge">
-            {{ dest.routeOrigin }} → {{ dest.routeDest }}
-          </div>
-        </div>
-        <div class="card-content">
-          <h3>{{ dest.title }}</h3>
-          <div class="price-info">
-            <span class="label">A partir de</span>
-            <div class="price">
-              <span class="currency">R$</span>
-              <span class="value">{{ dest.price }}</span>
+    <div class="row g-4">
+      @for (dest of destinations; track dest.title) {
+        <div class="col-xl-3 col-md-6">
+          <div class="card h-100 border-0 shadow-sm destination-card">
+            <div class="position-relative overflow-hidden">
+              <img [src]="dest.image" class="card-img-top" [alt]="dest.title" style="height: 200px; object-fit: cover;">
+              <span class="badge bg-primary position-absolute top-0 start-0 m-3 py-2 px-3 rounded-pill fw-bold">
+                {{ dest.routeOrigin }} <i class="bi bi-arrow-right mx-1"></i> {{ dest.routeDest }}
+              </span>
+            </div>
+            <div class="card-body p-4 d-flex flex-column">
+              <h5 class="card-title fw-bold text-dark mb-3">{{ dest.title }}</h5>
+              <div class="mt-auto">
+                <p class="mb-1 text-muted small text-uppercase fw-bold">A partir de</p>
+                <div class="d-flex align-items-baseline mb-3">
+                  <span class="text-primary fw-bold me-1">R$</span>
+                  <span class="text-primary fw-bold fs-2">{{ dest.price }}</span>
+                </div>
+                <button class="btn btn-primary w-100 fw-bold py-2">VER PASSAGENS</button>
+              </div>
             </div>
           </div>
-          <button class="btn-view">VER PASSAGENS</button>
         </div>
-      </div>
+      }
     </div>
   </div>
 </section>

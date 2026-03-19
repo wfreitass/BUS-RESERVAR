@@ -1,36 +1,37 @@
-<header class="main-header">
-  <div class="top-bar">
-    <div class="container flex-between">
-      <div class="top-links">
-        <a href="#">Central de Atendimento</a>
-        <a href="#">Minhas Viagens</a>
-      </div>
-      <div class="user-actions">
-        <a href="#" class="link-login">Entrar / Cadastrar</a>
-      </div>
-    </div>
-  </div>
-  
-  <div class="main-nav">
-    <div class="container flex-between">
-      <a class="logo" routerLink="/">
-        <img src="https://assets.queropassagem.com.br/static/Images/Logos/logo_nova_grande.png" alt="Quero Passagem">
+<header class="main-header sticky-top shadow-sm ">
+  <!-- Main Navigation -->
+  <nav class="navbar navbar-expand-lg py-3 bg-white">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand  p-1 rounded d-inline-block" href="#">
+        <qp-logo [height]="60"></qp-logo>
       </a>
-      
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="#">Passagens de Ônibus</a></li>
-          <li><a href="#">Viações</a></li>
-          <li><a href="#">Destinos</a></li>
-          <li><a href="#">Dúvidas</a></li>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <i class="bi bi-list fs-1"></i>
+      </button>
+
+      <!-- Menu Items -->
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav me-auto ms-lg-4 gap-lg-2 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link text-dark d-flex align-items-center" href="#"><i class="bi bi-bus-front me-2 fs-4"></i> Passagens </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark d-flex align-items-center" href="#"><i class="bi bi-building me-2 fs-4"></i> Hoteis <span class="badge bg-success p-1 ms-2">Novo</span></a>
+          </li>
         </ul>
-      </nav>
-      
-      <div class="mobile-menu-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
+        
+        <ul class="navbar-nav ms-auto gap-lg-1 align-items-lg-center">
+          <li class="nav-item"> 
+            <a class="nav-link text-dark d-flex align-items-center" href="#"><i class="bi bi-question-circle me-2 fs-4"></i>Central de Ajuda</a>
+          </li>
+          <li class="nav-item ms-lg-3 mt-3 mt-lg-0 ">
+            <button class="btn btn-primary px-3 py-2 fw-bold"> <i class="bi bi-person-circle me-2"></i>Entrar</button>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+  </nav>
 </header>

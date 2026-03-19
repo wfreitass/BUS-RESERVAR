@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { TicketSearchService } from '../../services/ticket-search.service';
 import Swal from 'sweetalert2';
 
@@ -17,7 +18,7 @@ export class SeatSelectionComponent implements OnInit {
   loading: boolean = false;
   selectedSeats: string[] = [];
 
-  constructor(private ticketService: TicketSearchService) { }
+  constructor(private ticketService: TicketSearchService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.travelId) {
@@ -117,6 +118,8 @@ export class SeatSelectionComponent implements OnInit {
       confirmButtonText: '<i class="fa fa-thumbs-up"></i> TUDO CERTO!',
       confirmButtonAriaLabel: 'Tudo certo!',
       confirmButtonColor: '#003366'
+    }).then(() => {
+      this.router.navigate(['/']);
     });
   }
 }

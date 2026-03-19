@@ -1,50 +1,13 @@
 @import '../../../../scss/variables';
-@import '../../../../scss/mixins';
 
 .trust-bar {
-  background-color: $gray-100;
-  padding: $space-8 0;
-  border-bottom: 1px solid $gray-200;
-}
-
-.trust-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: $space-8;
-  
-  @include responsive(md) {
-    grid-template-columns: 1fr;
-    gap: $space-6;
-  }
-}
-
-.trust-item {
-  @include flex(flex-start, center);
-  gap: $space-4;
-  
-  @include responsive(md) {
-    justify-content: center;
-    text-align: left;
-  }
-}
-
-.trust-icon {
-  font-size: $font-size-3xl;
-  flex-shrink: 0;
-}
-
-.trust-text {
-  h4 {
-    font-size: $font-size-base;
-    font-weight: 800;
-    color: $gray-800;
-    margin-bottom: 2px;
+  @media (min-width: 768px) {
+    .border-start-md {
+      border-left: 1px solid $gray-200 !important;
+    }
   }
   
-  p {
-    font-size: $font-size-sm;
-    color: $gray-500;
-    line-height: 1.4;
-    margin: 0;
+  i {
+    opacity: 0.8;
   }
 }

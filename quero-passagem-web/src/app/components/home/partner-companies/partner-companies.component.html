@@ -5,9 +5,11 @@
     </div>
     
     <div class="partners-slider">
-      <div class="partner-logo" *ngFor="let p of partners">
-        <span>{{ p }}</span>
-      </div>
+      @for (p of partners; track p) {
+        <div class="partner-logo">
+          <span>{{ p }}</span>
+        </div>
+      }
     </div>
   </div>
 </section>

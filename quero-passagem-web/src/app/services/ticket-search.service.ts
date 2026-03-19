@@ -2,6 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { 
+  LocationResponse, 
+  SearchRequest, 
+  SearchResponse, 
+  TravelSeatsResponse, 
+  BookingRequest, 
+  BookingResponse 
+} from '../models/ticket.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,27 +19,27 @@ export class TicketSearchService {
 
   constructor(private http: HttpClient) {}
 
-  getLocations(query: string = ''): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/locations`, {
+  getLocations(query: string = ''): Observable<LocationResponse[]> {
+    return this.http.get<LocationResponse[]>(`${this.apiUrl}/locations`, {
       params: query ? { query } : {}
     });
   }
 
-  getAllowedLocations(query: string = ''): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/locations/allowed`, {
+  getAllowedLocations(query: string = ''): Observable<LocationResponse[]> {
+    return this.http.get<LocationResponse[]>(`${this.apiUrl}/locations/allowed`, {
       params: query ? { query } : {}
     });
   }
 
-  search(searchData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/search`, searchData);
+  search(searchData: SearchRequest): Observable<SearchResponse[]> {
+    return this.http.post<SearchResponse[]>(`${this.apiUrl}/search`, searchData);
   }
 
-  getSeats(travelId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/seats/${travelId}`);
+  getSeats(travelId: string): Observable<TravelSeatsResponse[]> {
+    return this.http.get<TravelSeatsResponse[]>(`${this.apiUrl}/seats/${travelId}`);
   }
 
-  createBooking(bookingData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/booking`, bookingData);
+  createBooking(bookingData: BookingRequest): Observable<BookingResponse> {
+    return this.http.post<BookingResponse>(`${this.apiUrl}/booking`, bookingData);
   }
 }

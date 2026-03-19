@@ -1,80 +1,73 @@
 @import '../../../scss/variables';
-@import '../../../scss/mixins';
 
 .main-header {
-  background-color: $white;
-  box-shadow: $shadow-sm;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
+  background-color: $primary;
+  
   .top-bar {
-    background-color: $gray-100;
-    padding: $space-2 0;
-    font-size: $font-size-xs;
-    border-bottom: 1px solid $gray-200;
-
-    .container.flex-between { @include flex(space-between, center); }
-
-    .top-links {
-      a {
-        color: $gray-600;
-        text-decoration: none;
-        margin-right: $space-4;
-        transition: color 0.2s;
-        &:hover { color: $primary; }
-      }
-    }
-
-    .link-login {
-      font-weight: 700;
-      color: $primary;
+    background-color: $primary-dark;
+    
+    .top-link {
+      color: rgba($white, 0.85);
       text-decoration: none;
-      &:hover { color: $accent; }
+      font-size: $font-size-xs;
+      transition: color 0.2s;
+      
+      &:hover {
+        color: $white;
+      }
     }
   }
 
-  .main-nav {
-    padding: $space-4 0;
-    
-    .container.flex-between { @include flex(space-between, center); }
-
-    .logo {
-      display: block;
-      height: 48px; // Aumentado para melhor visibilidade
+  .navbar {
+    .nav-link {
+      color: $primary-dark !important;
+      font-weight: 600;
+      font-size: $font-size-sm;
+      padding: 0.5rem 1rem;
+      transition: all 0.2s;
+      position: relative;
       
-      img {
-        height: 100%;
-        width: auto;
-        display: block;
-        object-fit: contain;
+      &:hover {
+       background-color: $gray-100;
+       border-radius: $border-radius-full;
       }
     }
 
-    .nav-menu ul {
-      list-style: none;
-      @include flex(flex-start, center);
-      gap: $space-6;
-
-      @include responsive(md) { display: none; }
-
-      li a {
-        color: $primary;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: $font-size-sm;
-        transition: color 0.2s;
-        &:hover { color: $accent; }
+    .btn-entrar {
+      background-color: transparent;
+      color: $accent;
+      border: 1px solid $accent;
+      font-weight: 700;
+      font-size: $font-size-sm;
+      padding: 0.4rem 1.25rem;
+      border-radius: $border-radius-full;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: $accent;
+        color: $white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba($accent, 0.2);
       }
     }
-    
-    .mobile-menu-toggle {
-      display: none;
-      @include responsive(md) {
-        display: block;
-        font-size: 24px;
-        cursor: pointer;
-      }
-    }
+  }
+}
+
+.navbar-toggler {
+  &:focus {
+    box-shadow: none;
+  }
+  i {
+    color: $white;
+  }
+}
+
+@media (max-width: 991px) {
+  .main-header .navbar .nav-link {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba($white, 0.1);
+  }
+  .main-header .navbar .btn-entrar {
+    margin-top: $space-4 !important;
   }
 }

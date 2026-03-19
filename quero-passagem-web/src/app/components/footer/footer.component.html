@@ -1,56 +1,74 @@
-<footer class="main-footer">
-  <div class="container footer-grid">
-    <div class="footer-column about">
-      <a class="footer-logo" routerLink="/">
-        <img src="https://assets.queropassagem.com.br/static/Images/Logos/logo_nova_grande.png" alt="Quero Passagem">
-      </a>
-      <p>A Quero Passagem é o maior portal de passagens de ônibus do Brasil. Compare e compre sua passagem de ônibus em minutos.</p>
-      <div class="social-icons">
-        <a href="#">FB</a>
-        <a href="#">IG</a>
-        <a href="#">YT</a>
+<footer class="main-footer pt-5 pb-3">
+  <div class="container">
+    <div class="row g-4 mb-5">
+      <!-- Coluna 1: Logo e Texto de Segurança -->
+      <div class="col-lg-4 col-md-12 pe-lg-5">
+        <div class="mb-4 bg-white p-2 d-inline-block rounded">
+          <qp-logo [height]="45"></qp-logo>
+        </div>
+        <p class="fw-bold mb-3 text-white">Sua compra é totalmente segura!</p>
+        <p class="footer-text small lh-base mb-4">
+          Para garantirmos que seus dados estejam sempre protegidos, não armazenamos nenhuma informação do cartão de crédito utilizado, seguindo os protocolos de criptografia e de segurança das principais instituições bancárias do Brasil.
+        </p>
+        <!-- Redes Sociais Solicitadas -->
+        <div class="social-links d-flex gap-3 mt-2">
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+          <a href="#" aria-label="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Links Institucionais -->
+      <div class="col-lg-2 col-md-4 col-6">
+        <h5 class="footer-heading mb-4">A Quero Passagem</h5>
+        <ul class="footer-links list-unstyled d-flex flex-column gap-3">
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Termos de uso</a></li>
+          <li><a href="#">Política de privacidade</a></li>
+          <li><a href="#">Imprensa</a></li>
+          <li><a href="#">Minha Conta</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 3: Atendimento e Locais -->
+      <div class="col-lg-3 col-md-4 col-6">
+        <h5 class="footer-heading mb-4">Serviços</h5>
+        <ul class="footer-links list-unstyled d-flex flex-column gap-3">
+          <li><a href="#">Atendimento Online</a></li>
+          <li><a href="#">Trabalhe Conosco</a></li>
+          <li><a href="#">Gratuidade</a></li>
+          <li><a href="#">Auto Viações</a></li>
+          <li><a href="#">Rodoviárias e Destinos</a></li>
+        </ul>
+      </div>
+
+      <!-- Coluna 4: Outros Links -->
+      <div class="col-lg-3 col-md-4 col-12">
+        <h5 class="footer-heading mb-4">Parcerias</h5>
+        <ul class="footer-links list-unstyled d-flex flex-column gap-3">
+          <li><a href="#">Afiliados</a></li>
+          <li><a href="#">Rodomilhas</a></li>
+          <li><a href="#">Viajo Mucho</a></li>
+          <li><a href="#">La terminal Costa Rica</a></li>
+        </ul>
       </div>
     </div>
-    
-    <div class="footer-column links">
-      <h4>Institucional</h4>
-      <ul>
-        <li><a href="#">Quem Somos</a></li>
-        <li><a href="#">Termos de Uso</a></li>
-        <li><a href="#">Política de Privacidade</a></li>
-        <li><a href="#">Trabalhe Conosco</a></li>
-      </ul>
-    </div>
-    
-    <div class="footer-column help">
-      <h4>Atendimento</h4>
-      <ul>
-        <li><a href="#">Central de Ajuda</a></li>
-        <li><a href="#">Cancelamentos</a></li>
-        <li><a href="#">Reclame Aqui</a></li>
-        <li><a href="#">Fale Conosco</a></li>
-      </ul>
-    </div>
-    
-    <div class="footer-column payment-security">
-      <h4>Pagamento e Segurança</h4>
-      <div class="payment-methods">
-        <span class="badge">Visa</span>
-        <span class="badge">Master</span>
-        <span class="badge">Pix</span>
-        <span class="badge">Boleto</span>
+
+    <!-- Bottom: Copyright e CNPJ -->
+    <div class="footer-bottom pt-4">
+      <div class="row align-items-center">
+        <div class="col-md-8 text-center text-md-start">
+          <p class="mb-0 small text-muted">
+            &copy; 2026 Quero Passagem - QP Online Ltda. - CNPJ: 00.000.000/0001-00
+          </p>
+        </div>
+        <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+          <p class="mb-0 x-small text-muted">
+            Rua Exemplo, 123 - São Paulo, SP
+          </p>
+        </div>
       </div>
-      <div class="security-badges">
-        <span class="badge security">Compra Segura</span>
-        <span class="badge security">SSL Certificado</span>
-      </div>
-    </div>
-  </div>
-  
-  <div class="footer-bottom">
-    <div class="container">
-      <p>&copy; 2026 Quero Passagem - QP Online Ltda. - CNPJ: 00.000.000/0001-00</p>
-      <p class="address">Rua Exemplo, 123 - São Paulo, SP - CEP 01234-567</p>
     </div>
   </div>
 </footer>
