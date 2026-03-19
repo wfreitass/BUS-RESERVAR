@@ -19,6 +19,7 @@ export class HeroSearchComponent {
   originQuery: string = '';
   destinationQuery: string = '';
   departureDate: string = '';
+  minDate: string = new Date().toISOString().split('T')[0];
   
   selectedOrigin: any = null;
   selectedDestination: any = null;
