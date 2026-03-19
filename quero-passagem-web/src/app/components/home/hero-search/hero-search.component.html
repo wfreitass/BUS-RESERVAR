@@ -30,7 +30,7 @@
                          (click)="selectOrigin(loc)" style="cursor: pointer;">
                       <div class="d-flex align-items-center">
                         <i class="bi fs-5 me-3" [class]="loc.type === 'city' ? 'bi-building' : 'bi-bus-front'"></i>
-                        <span class="fw-bold text-dark">{{ loc.name.split(',')[0] }}</span>
+                        <span class="fw-bold text-dark">{{ loc.name }}</span>
                       </div>
                       <div class="text-end">
                         <small class="text-muted d-block small" style="font-size: 10px;">{{ loc.type === 'city' ? 'Cidade' : 'Rodoviária' }}</small>
@@ -68,7 +68,7 @@
                          (click)="selectDestination(loc)" style="cursor: pointer;">
                       <div class="d-flex align-items-center">
                         <i class="bi fs-5 me-3" [class]="loc.type === 'city' ? 'bi-building' : 'bi-bus-front'"></i>
-                        <span class="fw-bold text-dark">{{ loc.name.split(',')[0] }}</span>
+                        <span class="fw-bold text-dark">{{ loc.name }}</span>
                       </div>
                       <div class="text-end">
                         <small class="text-muted d-block small" style="font-size: 10px;">{{ loc.type === 'city' ? 'Cidade' : 'Rodoviária' }}</small>

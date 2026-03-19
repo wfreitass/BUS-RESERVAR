@@ -1,9 +1,16 @@
-export interface BookingRequest {
+export interface PassengerRequest {
+  name: string;
+  travelDocument: string;
+  travelDocumentType: string;
+  seatNumber: string;
+  birthDate: string;
+}
+
+export interface TravelBookingRequest {
   travelId: string;
-  seats: string[];
-  passenger: {
-    name: string;
-    document: string;
-    email: string;
-  };
+  passengers: PassengerRequest[];
+}
+
+export interface BookingRequest {
+  travels: TravelBookingRequest[];
 }

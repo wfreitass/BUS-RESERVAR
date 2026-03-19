@@ -85,41 +85,83 @@ export class SeatSelectionComponent implements OnInit {
 
     const seatsList = this.selectedSeats.join(', ');
     
-    Swal.fire({
-      title: '<strong>Reserva Confirmada!</strong>',
-      icon: 'success',
-      html: `
-        <div style="text-align: left; background: #f8f9fa; border: 2px dashed #003366; padding: 20px; border-radius: 10px; font-family: 'Inter', sans-serif;">
-          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 10px;">
-            <span style="font-weight: 800; color: #003366; text-transform: uppercase;">Passagem de Ônibus</span>
-            <span style="color: #ff6600; font-weight: 700;">#CONFIRMADO</span>
-          </div>
-          <div style="margin-bottom: 15px;">
-            <p style="margin: 0; font-size: 12px; color: #6c757d; text-transform: uppercase;">Poltrona(s)</p>
-            <p style="margin: 0; font-size: 20px; font-weight: 800; color: #343a40;">${seatsList}</p>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div>
-              <p style="margin: 0; font-size: 12px; color: #6c757d; text-transform: uppercase;">Status</p>
-              <p style="margin: 0; font-weight: 700; color: #28a745;">Pronto para embarque</p>
+    // Mostrando loading
+    this.loading = true;
+
+    // Chamando a API real de Booking com o formato correto (travels)
+    this.ticketService.createBooking({
+      travels: [
+        {
+          travelId: this.travelId,
+          passengers: this.selectedSeats.map(seat => ({
+            name: 'Passageiro ' + seat,
+            travelDocument: '000000000',
+            travelDocumentType: 'RG',
+            seatNumber: seat,
+            birthDate: '1990-01-01' // Adicionando data de nascimento mockada exigida pela API
+          }))
+        }
+      ]
+    }).subscribe({
+      next: (response) => {
+        this.loading = false;
+        
+       
+        if (response.error) {
+          const msg = Array.isArray(response.message) ? response.message.join('<br>') : response.message;
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro na Reserva',
+            html: `<div class="text-start small text-danger">${msg}</div>`,
+            confirmButtonColor: '#ff6600'
+          });
+          return;
+        }
+        
+        // Modal de SUCESSO apenas se a API der OK real
+        Swal.fire({
+          title: '<strong>Reserva Confirmada!</strong>',
+          icon: 'success',
+          html: `
+            <div style="text-align: left; background: #f8f9fa; border: 2px dashed #003366; padding: 20px; border-radius: 10px; font-family: 'Inter', sans-serif;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 10px;">
+                <span style="font-weight: 800; color: #003366; text-transform: uppercase;">Passagem de Ônibus</span>
+                <span style="color: #ff6600; font-weight: 700;">#CONFIRMADO</span>
+              </div>
+              <div style="margin-bottom: 15px;">
+                <p style="margin: 0; font-size: 12px; color: #6c757d; text-transform: uppercase;">Poltrona(s)</p>
+                <p style="margin: 0; font-size: 20px; font-weight: 800; color: #343a40;">${seatsList}</p>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                  <p style="margin: 0; font-size: 12px; color: #6c757d; text-transform: uppercase;">Status</p>
+                  <p style="margin: 0; font-weight: 700; color: #28a745;">Pronto para embarque</p>
+                </div>
+              </div>
+              <div style="margin-top: 20px; text-align: center; border-top: 1px dashed #003366; pt: 10px;">
+                <p style="font-size: 11px; color: #6c757d; margin-top: 10px;">Boa viagem com a Quero Passagem!</p>
+              </div>
             </div>
-            <div style="text-align: right;">
-              <p style="margin: 0; font-size: 12px; color: #6c757d; text-transform: uppercase;">Tipo</p>
-              <p style="margin: 0; font-weight: 700;">Somente Ida</p>
-            </div>
-          </div>
-          <div style="margin-top: 20px; text-align: center; border-top: 1px dashed #003366; pt: 10px;">
-            <p style="font-size: 11px; color: #6c757d; margin-top: 10px;">Boa viagem com a Quero Passagem!</p>
-          </div>
-        </div>
-      `,
-      showCloseButton: true,
-      focusConfirm: false,
-      confirmButtonText: '<i class="fa fa-thumbs-up"></i> TUDO CERTO!',
-      confirmButtonAriaLabel: 'Tudo certo!',
-      confirmButtonColor: '#003366'
-    }).then(() => {
-      this.router.navigate(['/']);
+          `,
+          showCloseButton: true,
+          focusConfirm: false,
+          confirmButtonText: '<i class="fa fa-thumbs-up"></i> TUDO CERTO!',
+          confirmButtonAriaLabel: 'Tudo certo!',
+          confirmButtonColor: '#003366'
+        }).then(() => {
+          this.router.navigate(['/']);
+        });
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Erro ao processar reserva:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Ops! Falha na Reserva',
+          text: 'Ocorreu um erro ao comunicar com nossos servidores.',
+          confirmButtonColor: '#ff6600'
+        });
+      }
     });
   }
 }

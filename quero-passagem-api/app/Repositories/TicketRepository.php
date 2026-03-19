@@ -104,6 +104,10 @@ class TicketRepository
     public function createBooking(array $data)
     {
         try {
+            if (!isset($data['travels'])) {
+                return ['error' => true, 'message' => 'O campo travels é obrigatório.'];
+            }
+
             $response = $this->client()->post("{$this->baseUrl}/new/booking", [
                 'affiliateCode' => $this->affiliateCode,
                 'travels' => $data['travels']

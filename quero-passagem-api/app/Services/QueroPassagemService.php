@@ -60,11 +60,7 @@ class QueroPassagemService
             return [];
         }
 
-        usort($tickets, function (array $a, array $b) {
-            $timeA = strtotime(($a['departure']['date'] ?? '') . ' ' . ($a['departure']['time'] ?? ''));
-            $timeB = strtotime(($b['departure']['date'] ?? '') . ' ' . ($b['departure']['time'] ?? ''));
-            return $timeA <=> $timeB;
-        });
+        $this->sortTicketsByDeparture($tickets);
 
         return $tickets;
     }
@@ -91,5 +87,20 @@ class QueroPassagemService
     public function createBooking(array $data)
     {
         return $this->repository->createBooking($data);
+    }
+
+    /**
+     * Ordenar os tickets pela data e hora de partida.
+     * 
+     * @param array $tickets
+     * @return void
+     */
+    protected function sortTicketsByDeparture(array &$tickets): void
+    {
+        usort($tickets, function (array $a, array $b) {
+            $timeA = strtotime(($a['departure']['date'] ?? '') . ' ' . ($a['departure']['time'] ?? ''));
+            $timeB = strtotime(($b['departure']['date'] ?? '') . ' ' . ($b['departure']['time'] ?? ''));
+            return $timeA <=> $timeB;
+        });
     }
 }

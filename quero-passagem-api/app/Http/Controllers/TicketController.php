@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateBookingRequest;
 use App\Http\Requests\SearchTicketRequest;
 use App\Services\QueroPassagemService;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +23,7 @@ class TicketController extends Controller
      */
     public function locations(Request $request): JsonResponse
     {
-        $query = $request->get('query', '');
+        $query = $request->input('query', '');
         $locations = $this->service->getAllLocations();
 
         if ($query) {
@@ -38,7 +39,7 @@ class TicketController extends Controller
      */
     public function allowedLocations(Request $request): JsonResponse
     {
-        $query = $request->get('query', '');
+        $query = $request->input('query', '');
         $locations = $this->service->getAllowedLocations();
 
         if ($query) {
@@ -74,9 +75,9 @@ class TicketController extends Controller
         return response()->json($seats);
     }
 
-    public function booking(Request $request)
+    public function booking(CreateBookingRequest $request)
     {
-        $result = $this->service->createBooking($request->all());
+        $result = $this->service->createBooking($request->validated());
         return response()->json($result);
     }
 }
